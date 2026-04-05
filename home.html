@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who Am I - Deniz</title>
+    <link rel="stylesheet" href="style.css?v=9">
+</head>
+<body>
+    <div class="main-site">
+        
+        <div class="cat-banner">
+            <img src="assets/cataero.jpg" alt="Cat 1">
+            <img src="assets/cataero2.jpg" alt="Cat 2">
+            <img src="assets/cataero.jpg" alt="Cat 3">
+            <img src="assets/cataero2.jpg" alt="Cat 4" class="hide-on-mobile">
+            <img src="assets/cataero.jpg" alt="Cat 5" class="hide-on-mobile">
+        </div>
+
+        <div class="game-area aero-window">
+            <canvas id="gameCanvas" width="800" height="400" style="width:100%; height:100%;"></canvas>
+        </div>
+
+        <div class="widgets-area">
+            
+            <div class="left-widgets">
+                <img src="assets/pagegif.gif" alt="Music Player" class="wmp-widget aero-window">
+                <img src="assets/whoami.jpg" alt="Who Am I" class="whoami-trigger aero-window" id="whoAmiBtn">
+            </div>
+            
+            <div class="right-widgets">
+                <a href="https://open.spotify.com/playlist/1f45JnmBQNZKspjDjicfaM?si=092ae73363b843cd" target="_blank" class="spotify-link">
+                    <marquee scrollamount="5">you can check my spotify playlist here ▶︎•၊၊||၊|။|||||။၊|။• you can check my spotify playlist here ▶︎•၊၊||၊|။|||||။၊|။•</marquee>
+                </a>
+
+                <div class="chat-widget aero-window">
+                    <img src="assets/chatfrutigo.JPG" alt="Drop a Note" class="chat-bg">
+                    <a href="ask.html" class="chat-link">
+                        <marquee scrollamount="4">click here 📩       click here 📩       click here 📩</marquee>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-overlay" id="whoAmiModal">
+        <div class="whoami-modal">
+            <img src="assets/aboutme.jpg" alt="About Me" class="whoami-photo">
+            <button class="modal-close-btn" id="closeModalBtn">X</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+
+    <script>
+        const btn = document.getElementById('whoAmiBtn');
+        const modal = document.getElementById('whoAmiModal');
+        const closeBtn = document.getElementById('closeModalBtn');
+
+        btn.addEventListener('click', () => {
+            modal.classList.add('active');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

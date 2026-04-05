@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Drop a Note - Deniz</title>
+    <link rel="stylesheet" href="style.css?v=16">
+    <style>
+        body {
+            overflow: hidden; 
+            display: flex;
+            justify-content: center;
+            background-color: #87ceeb; 
+            background: url('assets/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 500px; 
+            height: 100dvh; 
+            box-sizing: border-box; 
+            display: flex;
+            flex-direction: column;
+            padding: 0px 15px 70px 15px; 
+            gap: 15px; 
+            position: relative;
+            margin: 0 auto; 
+        }
+
+      /* 1. ÜST BANNER (Balıklı GIF) - Oval Cam Çerçeve Geri Geldi! */
+        .header-banner {
+            width: 100%;
+            /* DÜZELTME BURADA: Dört köşeyi de tekrar yuvarlattık */
+            border-radius: 12px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            /* Üstten minik bir boşluk verdik ki çerçeve tavana yapışıp ezilmesin */
+            margin-top: 5px; 
+        }
+
+        .message-board {
+            flex: 1; 
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 15px;
+            overflow-y: auto; 
+            display: flex;
+            flex-direction: column;
+            gap: 20px; 
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .qa-post {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .q-header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .q-header {
+            font-size: 12px;
+            color: #115da8;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .q-header::before { content: "👤"; }
+
+        .q-timestamp {
+            font-size: 11px;
+            color: #555;
+            font-style: italic;
+        }
+
+        .q-text {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            word-wrap: break-word;
+        }
+
+        .a-text {
+            font-size: 15px;
+            color: #115da8;
+            font-weight: 600;
+            padding-top: 10px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            word-wrap: break-word;
+            display: flex;
+            gap: 8px;
+        }
+
+        .a-text::before {
+            content: "»"; 
+            color: #4096ee;
+            font-size: 18px;
+        }
+
+        .input-area {
+            background: #c3e8f8; 
+            border: 2px solid #5ca9d6;
+            border-radius: 4px;
+            padding: 3px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .notepad-header {
+            background: #5ca9d6;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .notepad-textarea {
+            width: 100%;
+            height: 70px;
+            background: white;
+            border: 1px inset #ccc;
+            resize: none;
+            padding: 8px;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+
+        .action-btn {
+            background: linear-gradient(to bottom, #ffffff 0%, #e0e0e0 100%);
+            border: 1px solid #999;
+            border-radius: 3px;
+            padding: 4px 15px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+        }
+
+        #customAlert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 280px;
+            background: #f0f0f0;
+            border: 2px solid #0054e3;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            z-index: 99999;
+        }
+
+        .alert-header {
+            background: linear-gradient(to bottom, #0058e6 0%, #003bb3 100%);
+            color: white; padding: 5px 10px; font-weight: bold; font-size: 12px;
+            display: flex; justify-content: space-between;
+        }
+
+        .alert-body { padding: 20px; text-align: center; font-size: 14px; }
+        .alert-footer { padding: 10px; text-align: center; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.5); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <img src="assets/2ndpagegif.gif" alt="Banner" class="header-banner">
+
+        <div class="message-board" id="messageBoard">
+            </div>
+
+        <div class="input-area">
+            <div class="notepad-header">
+                <span>♥ - Notepad</span>
+                <span>- □ x</span>
+            </div>
+            <textarea class="notepad-textarea" id="messageInput" placeholder="drop a note anonymously..."></textarea>
+            <div class="button-group">
+                <a href="index.html" class="action-btn">Back</a>
+                <button class="action-btn send" id="sendBtn" style="color: #115da8; border-color: #5ca9d6;">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="customAlert">
+        <div class="alert-header"><span>Message</span><span>x</span></div>
+        <div class="alert-body" id="alertText"></div>
+        <div class="alert-footer"><button class="action-btn" onclick="closeAlert()">OK</button></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        const supabaseUrl = 'https://yvqjhixzznapbrigdlro.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2cWpoaXh6em5hcGJyaWdkbHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNTE4NDYsImV4cCI6MjA5MDcyNzg0Nn0._Sf1oZRRNb2bGxtzBbLgbFmtt7gHfDYkgZ1vjSLXnro';
+        const _supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        const board = document.getElementById('messageBoard');
+        const input = document.getElementById('messageInput');
+        const alertBox = document.getElementById('customAlert');
+
+        function showAlert(msg) {
+            document.getElementById('alertText').innerText = msg;
+            alertBox.style.display = 'block';
+        }
+
+        function closeAlert() {
+            alertBox.style.display = 'none';
+        }
+
+        function formatDate(isoString) {
+            const date = new Date(isoString);
+            const options = { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return date.toLocaleDateString('en-US', options);
+        }
+
+        async function loadMessages() {
+            const { data, error } = await _supabase
+                .from('messages')
+                .select('*')
+                .not('answer', 'is', null)
+                .order('created_at', { ascending: false });
+
+            if (error) return;
+
+            // Panoyu tamamen temizle (başlık kalmadı)
+            board.innerHTML = '';
+            
+            // Postları ekle
+            data.forEach(item => {
+                const post = document.createElement('div');
+                post.className = 'qa-post';
+                
+                const timeString = formatDate(item.created_at);
+
+                post.innerHTML = `
+                    <div class="q-header-container">
+                        <div class="q-header">Anonymous</div>
+                        <div class="q-timestamp">${timeString}</div>
+                    </div>
+                    <div class="q-text">${item.content}</div>
+                    <div class="a-text">${item.answer}</div>
+                `;
+                board.appendChild(post);
+            });
+            board.scrollTop = board.scrollHeight;
+        }
+
+        document.getElementById('sendBtn').onclick = async function() {
+            const text = input.value.trim();
+            if (!text) return;
+
+            this.disabled = true;
+            this.textContent = '...';
+
+            try {
+                const { error } = await _supabase
+                    .from('messages')
+                    .insert([{ content: text }]);
+
+                if (error) throw error;
+
+                showAlert("Your message has been sent successfully! It will be visible here once Deniz replies to it. ✗♡✗♡");
+                input.value = '';
+            } catch (err) {
+                showAlert("Oops! Failed to send. Check RLS or connection.");
+            } finally {
+                this.disabled = false;
+                this.textContent = 'Send';
+            }
+        };
+
+        window.onload = loadMessages;
+    </script>
+</body>
+</html>
