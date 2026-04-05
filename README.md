@@ -1,4 +1,4 @@
-DenizAeroLog is a modern personal web project (inspired by "strawpage") inspired by the **Frutiger Aero** aesthetic (late 2000s). It combines a glossy, nostalgic user interface with an interactive physics-based background game and a secure, real-time messaging system.
+DenizAeroLog is a modern personal web project (inspired by "strawpage") inspired by the **Frutiger Aero** aesthetic (late 2000s). It combines a glossy, nostalgic user interface with an interactive physics-based background game and a secure, real-time messaging system. I took help from gemini while creating this website.
 
 ## Live Demo
 Check out the live site on Netlify (https://deniz-aero-log.netlify.app)
